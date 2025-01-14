@@ -3,7 +3,7 @@ import { MenuItemsApi } from "./MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "./MenuItems.type";
 import ExpandableTopics from "../../../ExpandableTopics/ExpandableTopics";
 
-const Menu: React.FC = () => {
+const SidenavMenu: React.FC = () => {
   const [treeData, setTreeData] = useState<TOCEntityTree[]>([]);
   const [error, setError] = useState<string | null>(null);
 
@@ -39,11 +39,7 @@ const Menu: React.FC = () => {
     return <b className="text-red-500">{error}</b>;
   }
 
-  return (
-    <div className="menu">
-      <ExpandableTopics topics={treeData} />
-    </div>
-  );
+  return <ExpandableTopics topics={treeData} />;
 };
 
-export default Menu;
+export default SidenavMenu;

@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TOCEntityTree } from "../Layout/AppSidenav/Menu/MenuItems.type";
+import { TOCEntityTree } from "../Layout/AppSidenav/SidenavMenu/MenuItems.type";
 import "./ExpandableTopics.scss";
 import RightArrow from "../../assets/icons/RightArrow";
 import DownArrow from "../../assets/icons/DownArrow";
@@ -13,36 +13,43 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
     {}
   );
 
-  const toggleExpand = (topicName: string) => {
+  const toggleExpand = (topicId: string) => {
     setExpandedTopics((prev) => ({
       ...prev,
-      [topicName]: !prev[topicName],
+      [topicId]: !prev[topicId],
     }));
   };
 
-  const isTopicExpanded = (topicName: string): boolean =>
-    expandedTopics[topicName];
+  const isTopicExpanded = (topicId: string): boolean => expandedTopics[topicId];
+
+  const isTopicWithChildExpanded = (topic: TOCEntityTree): boolean =>
+    topic.level > 0 && !!topic.pages?.length && isTopicExpanded(topic.id);
 
   const renderTopics = (topics: TOCEntityTree[], level: number) => {
     return (
       <ul>
         {topics.map((topic) => (
-          <li key={topic.title} className={`pl-${level * 4}`}>
+          <li
+            key={topic.id}
+            className={`
+              pl-${level * 4}
+              ${isTopicExpanded(topic.id) ? "!bg-zinc-100" : ""}
+              ${isTopicWithChildExpanded(topic) ? "!bg-gray-200" : ""}
+            `}
+          >
             <div
-              className={`list-name ${
-                isTopicExpanded(topic.title) ? "bg-purple-100" : ""
-              }`}
-              onClick={() => toggleExpand(topic.title)}
+              className={`list-name`}
+              onClick={() => toggleExpand(topic.id)}
               tabIndex={topic.tabIndex}
               role="button"
             >
               {topic.subEntities &&
-                (isTopicExpanded(topic.title) ? <DownArrow /> : <RightArrow />)}
+                (isTopicExpanded(topic.id) ? <DownArrow /> : <RightArrow />)}
               <p>{topic.title}</p>
             </div>
 
             {topic.subEntities &&
-              isTopicExpanded(topic.title) &&
+              isTopicExpanded(topic.id) &&
               renderTopics(topic.subEntities, topic.level + 1)}
           </li>
         ))}
@@ -50,7 +57,7 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
     );
   };
 
-  return <div className="w-full">{renderTopics(topics, 0)}</div>;
+  return <div>{renderTopics(topics, 0)}</div>;
 };
 
 export default ExpandableTopics;

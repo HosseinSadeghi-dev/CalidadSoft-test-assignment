@@ -6,7 +6,7 @@ export interface TOCEntity {
   id: string;
   title: string;
   url?: string;
-  parentId?: string;
+  parentId: string;
   level: number;
   tabIndex: number;
   doNotShowWarningLink?: boolean;
