@@ -1,4 +1,4 @@
-import axiosInstance from "../../../utils/axiosInstance";
+import axiosInstance from "../../../../utils/axiosInstance";
 import { TOC } from "./MenuItems.type";
 
 export const MenuItemsApi = (): Promise<TOC> => {

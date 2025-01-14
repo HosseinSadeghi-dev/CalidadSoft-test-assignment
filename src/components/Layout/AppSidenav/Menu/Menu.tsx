@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MenuItemsApi } from "./MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "./MenuItems.type";
-import ExpandableTopics from "../../ExpandableTopics/ExpandableTopics";
+import ExpandableTopics from "../../../ExpandableTopics/ExpandableTopics";
 
 const Menu: React.FC = () => {
   const [treeData, setTreeData] = useState<TOCEntityTree[]>([]);

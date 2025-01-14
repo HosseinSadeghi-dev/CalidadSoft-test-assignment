@@ -1,6 +1,6 @@
 import React from "react";
 import ExpandableTopics from "../../ExpandableTopics/ExpandableTopics";
-import Menu from "../Menu/Menu";
+import Menu from "./Menu/Menu";
 
 interface Props {
   title?: string;
