@@ -24,7 +24,6 @@ export default tseslint.config(
         { allowConstantExport: true },
       ],
       "react/react-in-jsx-scope": "off",
-      "import/no-extraneous-dependencies": ["error", { devDependencies: true }],
     },
   }
 );
