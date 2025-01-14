@@ -1,0 +1,11 @@
+ul {
+  li {
+    @apply flex flex-col focus-visible:border-none focus-visible:outline-none focus:outline-none;
+    .list-name {
+      @apply flex flex-row gap-x-1 items-center px-[22px] py-2 hover:bg-zinc-100 focus:border focus:border-violet-600 focus:bg-white focus-visible:outline-none focus:outline-none active:bg-purple-600 active:text-white;
+      p {
+        @apply text-[13px] leading-[20px] font-normal;
+      }
+    }
+  }
+}
