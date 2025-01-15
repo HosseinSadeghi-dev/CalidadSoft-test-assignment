@@ -1,50 +1,130 @@
-# React + TypeScript + Vite
+# Test Assignment
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+This repository contains a project setup for developing and testing modern React applications using Vite, TypeScript, TailwindCSS, Cypress, and ESLint.
 
-Currently, two official plugins are available:
+## Table of Contents
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react/README.md) uses [Babel](https://babeljs.io/) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+- [Prerequisites](#prerequisites)
+- [Installation](#installation)
+- [Available Scripts](#available-scripts)
+- [Dependencies](#dependencies)
+- [Development Workflow](#development-workflow)
+- [License](#license)
 
-## Expanding the ESLint configuration
+## Prerequisites
 
-If you are developing a production application, we recommend updating the configuration to enable type aware lint rules:
+Ensure you have the following installed on your system:
 
-- Configure the top-level `parserOptions` property like this:
+- [Node.js](https://nodejs.org/) (version 16 or later recommended)
+- npm or [yarn](https://yarnpkg.com/)
 
-```js
-export default tseslint.config({
-  languageOptions: {
-    // other options...
-    parserOptions: {
-      project: ['./tsconfig.node.json', './tsconfig.app.json'],
-      tsconfigRootDir: import.meta.dirname,
-    },
-  },
-})
+## Installation
+
+1. Clone the repository:
+
+   ```bash
+   git clone https://github.com/HosseinSadeghi-dev/CalidadSoft-test-assignment.git
+   ```
+
+2. Navigate to the project directory:
+
+   ```bash
+   cd test-assignment
+   ```
+
+3. Install dependencies:
+   ```bash
+   npm install
+   # or
+   yarn install
+   ```
+
+## Available Scripts
+
+### Development Server
+
+Run the development server for live preview:
+
+```bash
+npm run dev
 ```
 
-- Replace `tseslint.configs.recommended` to `tseslint.configs.recommendedTypeChecked` or `tseslint.configs.strictTypeChecked`
-- Optionally add `...tseslint.configs.stylisticTypeChecked`
-- Install [eslint-plugin-react](https://github.com/jsx-eslint/eslint-plugin-react) and update the config:
+Access the application at [http://localhost:5173](http://localhost:5173).
 
-```js
-// eslint.config.js
-import react from 'eslint-plugin-react'
+### Build for Production
 
-export default tseslint.config({
-  // Set the react version
-  settings: { react: { version: '18.3' } },
-  plugins: {
-    // Add the react plugin
-    react,
-  },
-  rules: {
-    // other rules...
-    // Enable its recommended rules
-    ...react.configs.recommended.rules,
-    ...react.configs['jsx-runtime'].rules,
-  },
-})
+Generate a production build:
+
+```bash
+npm run build
 ```
+
+### Preview Production Build
+
+Preview the production build locally:
+
+```bash
+npm run preview
+```
+
+### Linting
+
+Run ESLint to check for code quality issues:
+
+```bash
+npm run lint
+```
+
+### Run Unit Tests
+
+Run Cypress component tests:
+
+```bash
+npm run test:unit
+```
+
+Open Cypress for interactive testing:
+
+```bash
+npm run test:unit:dev
+```
+
+### Cypress E2E Tests
+
+Open Cypress for end-to-end testing:
+
+```bash
+npm run cypress
+```
+
+## Dependencies
+
+### Core Dependencies
+
+- `react`: ^18.0.0
+- `react-dom`: ^18.0.0
+- `axios`: ^1.7.9
+
+### Development Dependencies
+
+- `vite`: ^5.0.0
+- `typescript`: ~5.6.2
+- `tailwindcss`: ^3.4.17
+- `cypress`: ^13.17.0
+- `eslint` and plugins: ^9.18.0
+
+## Development Workflow
+
+1. Start the development server using `npm run dev`.
+2. Make changes to your codebase; the application will auto-reload.
+3. Run `npm run lint` before committing to ensure code quality.
+4. Write and run tests using Cypress for reliable components.
+5. Build and preview the application using `npm run build` and `npm run preview`.
+
+## License
+
+This project is private and does not include a license.
+
+---
+
+Feel free to contribute or suggest improvements!

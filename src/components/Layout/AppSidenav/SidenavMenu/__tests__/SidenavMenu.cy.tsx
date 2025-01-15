@@ -4,7 +4,7 @@ import { TOC } from "../MenuItems.type";
 import { MenuItemsApi } from "../MenuItems.api";
 import SidenavMenu from "../SidenavMenu";
 
-describe("SidenavMenu Component", () => {
+describe("SidenavMenu Component with Search", () => {
   const mockTOC: TOC = {
     topLevelIds: ["1", "2"],
     entities: {
@@ -43,15 +43,11 @@ describe("SidenavMenu Component", () => {
   };
 
   beforeEach(() => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).resolves(
-      mockTOC
-    );
+    cy.stub(MenuItemsApi, "default").resolves(mockTOC);
   });
 
   it("displays skeleton loader while loading", () => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).callsFake(
-      () => new Promise(() => {})
-    );
+    cy.stub(MenuItemsApi, "default").callsFake(() => new Promise(() => {}));
     mount(<SidenavMenu />);
     cy.get(".skeleton").should("have.length", 20);
   });
@@ -68,18 +64,34 @@ describe("SidenavMenu Component", () => {
   });
 
   it("displays an error message if the API fails", () => {
-    cy.stub(MenuItemsApi).rejects(new Error("API error"));
+    cy.stub(MenuItemsApi, "default").rejects(new Error("API error"));
     mount(<SidenavMenu />);
     cy.contains("Failed to fetch menu items").should("exist");
   });
 
   it("handles empty menu data gracefully", () => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).resolves({
+    cy.stub(MenuItemsApi, "default").resolves({
       topLevelIds: [],
       entities: { pages: {} },
     });
     mount(<SidenavMenu />);
     cy.get("ul").should("exist");
     cy.get("li").should("not.exist");
+  });
+
+  it("filters menu items based on search input", () => {
+    mount(<SidenavMenu />);
+    cy.get("input").type("Subtopic 1-1");
+    cy.contains("Subtopic 1-1").should("exist");
+    cy.contains("Subtopic 1-2").should("not.exist");
+    cy.contains("Topic 1").should("exist");
+  });
+
+  it("clears search input and resets menu items", () => {
+    mount(<SidenavMenu />);
+    cy.get("input").type("Subtopic 1-1");
+    cy.contains("Subtopic 1-1").should("exist");
+    cy.get("input").clear();
+    cy.contains("Subtopic 1-2").should("exist");
   });
 });
