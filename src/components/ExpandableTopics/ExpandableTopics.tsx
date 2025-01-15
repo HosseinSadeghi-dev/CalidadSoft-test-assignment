@@ -33,7 +33,7 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
             key={topic.id}
             className={`
               pl-${level * 4}
-              ${isTopicExpanded(topic.id) ? "!bg-zinc-100" : ""}
+              ${isTopicExpanded(topic.id) ? "bg-zinc-100" : ""}
               ${isTopicWithChildExpanded(topic) ? "!bg-gray-200" : ""}
             `}
           >

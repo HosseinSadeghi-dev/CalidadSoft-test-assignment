@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 import { MenuItemsApi } from "./MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "./MenuItems.type";
 import ExpandableTopics from "../../../ExpandableTopics/ExpandableTopics";
@@ -9,22 +9,25 @@ const SidenavMenu: React.FC = () => {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const buildTree = (
-    entity: TOCEntity,
-    pages: Record<string, TOCEntity>
-  ): TOCEntityTree => ({
-    ...entity,
-    subEntities: entity.pages
-      ?.map((id) => pages[id])
-      .filter(Boolean)
-      .map((subEntity) => buildTree(subEntity, pages)),
-  });
+  const buildTree = useCallback(
+    (entity: TOCEntity, pages: Record<string, TOCEntity>): TOCEntityTree => ({
+      ...entity,
+      subEntities: entity.pages
+        ?.map((id) => pages[id])
+        .filter(Boolean)
+        .map((subEntity) => buildTree(subEntity, pages)),
+    }),
+    []
+  );
 
-  const getStructuredData = (response: TOC): TOCEntityTree[] =>
-    response.topLevelIds
-      .map((id) => response.entities.pages[id])
-      .filter(Boolean)
-      .map((entity) => buildTree(entity, response.entities.pages));
+  const getStructuredData = useCallback(
+    (response: TOC): TOCEntityTree[] =>
+      response.topLevelIds
+        .map((id) => response.entities.pages[id])
+        .filter(Boolean)
+        .map((entity) => buildTree(entity, response.entities.pages)),
+    [buildTree]
+  );
 
   useEffect(() => {
     const fetchMenuItems = async () => {
@@ -41,7 +44,7 @@ const SidenavMenu: React.FC = () => {
       }
     };
     fetchMenuItems();
-  }, []);
+  }, [getStructuredData]);
 
   if (isLoading) {
     return (
