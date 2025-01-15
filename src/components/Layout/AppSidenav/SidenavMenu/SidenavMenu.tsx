@@ -39,7 +39,7 @@ const SidenavMenu: React.FC = () => {
       for (const [key, page] of Object.entries(toc.entities.pages)) {
         if (page.pages?.includes(pageId) && !filteredPages[key]) {
           filteredPages[key] = page;
-          addParents(key); // Recur for the parent
+          addParents(key);
         }
       }
     };
@@ -123,7 +123,7 @@ const SidenavMenu: React.FC = () => {
         placeholder="Search..."
       />
       {isLoading ? (
-        Array.from(Array(20), (e, idx) => (
+        Array.from(Array(20), (_, idx) => (
           <Skeleton key={idx} className="h-7 mx-4" />
         ))
       ) : (
