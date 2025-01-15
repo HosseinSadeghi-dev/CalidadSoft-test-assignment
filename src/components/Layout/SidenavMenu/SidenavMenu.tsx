@@ -1,8 +1,8 @@
 import React, { useCallback, useEffect, useState } from "react";
 import { MenuItemsApi } from "./MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "./MenuItems.type";
-import ExpandableTopics from "../../../ExpandableTopics/ExpandableTopics";
-import Skeleton from "../../../UI/Skeleton/Skeleton";
+import ExpandableTopics from "../../ExpandableTopics/ExpandableTopics";
+import Skeleton from "@components/UI/Skeleton/Skeleton";
 
 const SidenavMenu: React.FC = () => {
   const [entityData, setEntityData] = useState<TOC>({} as TOC);

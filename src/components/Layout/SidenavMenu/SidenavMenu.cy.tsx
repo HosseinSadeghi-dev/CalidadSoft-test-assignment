@@ -1,8 +1,8 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react18";
-import { TOC } from "../MenuItems.type";
-import { MenuItemsApi } from "../MenuItems.api";
-import SidenavMenu from "../SidenavMenu";
+import { TOC } from "./MenuItems.type";
+import { MenuItemsApi } from "./MenuItems.api";
+import SidenavMenu from "./SidenavMenu";
 
 describe("SidenavMenu Component with Search", () => {
   const mockTOC: TOC = {

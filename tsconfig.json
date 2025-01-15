@@ -1,11 +1,13 @@
 {
-  "files": [],
   "references": [
     { "path": "./tsconfig.app.json" },
     { "path": "./tsconfig.node.json" }
   ],
-  "compilerOptions": {
-    "types": ["cypress"]
-  },
-  "include": ["src", "cypress"]
+  "include": [
+    "src/**/*.ts",
+    "src/**/*.d.ts",
+    "src/**/*.tsx",
+    "types/*.d.ts",
+    "cypress"
+  ]
 }

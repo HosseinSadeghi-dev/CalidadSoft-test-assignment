@@ -1,8 +1,8 @@
 import React, { useState } from "react";
-import { TOCEntityTree } from "../Layout/AppSidenav/SidenavMenu/MenuItems.type";
+import { TOCEntityTree } from "../Layout/SidenavMenu/MenuItems.type";
 import "./ExpandableTopics.scss";
-import RightArrow from "../../assets/icons/RightArrow";
-import DownArrow from "../../assets/icons/DownArrow";
+import RightArrow from "@assets/icons/RightArrow";
+import DownArrow from "@assets/icons/DownArrow";
 
 interface ExpandableTopicsProps {
   topics: TOCEntityTree[];

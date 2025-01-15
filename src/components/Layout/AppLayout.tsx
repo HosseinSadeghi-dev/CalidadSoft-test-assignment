@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import AppSidenav from "./AppSidenav/AppSidenav";
+import AppSidenav from "./AppSidenav";
 
 const AppLayout: React.FC = () => {
   const [sidenavWidth] = useState<number>(284);
