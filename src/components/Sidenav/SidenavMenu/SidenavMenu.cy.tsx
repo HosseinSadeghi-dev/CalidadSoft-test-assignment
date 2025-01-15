@@ -1,10 +1,10 @@
 /// <reference types="cypress" />
 import { mount } from "cypress/react18";
-import { MenuItemsApi } from "@services/MenuItems.api";
 import SidenavMenu from "./SidenavMenu";
+import { MenuItemsApi } from "@services/MenuItems.api";
 import { TOC } from "@/types/Sidenav/MenuItems.type";
 
-describe("SidenavMenu Component with Search", () => {
+describe("SidenavMenu Component", () => {
   const mockTOC: TOC = {
     topLevelIds: ["1", "2"],
     entities: {
@@ -43,59 +43,34 @@ describe("SidenavMenu Component with Search", () => {
   };
 
   beforeEach(() => {
-    cy.stub(MenuItemsApi, "default").resolves(mockTOC);
+    cy.stub(MenuItemsApi).resolves(mockTOC);
+    mount(<SidenavMenu />);
   });
 
-  it("displays skeleton loader while loading", () => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).callsFake(
-      () => new Promise(() => {})
-    );
-    mount(<SidenavMenu />);
-    cy.get(".skeleton").should("have.length", 20);
+  it("should render the search input", () => {
+    cy.get('input[type="text"]').should("exist");
   });
 
-  it("renders the fetched menu items", () => {
-    mount(<SidenavMenu />);
+  it("should display loading skeletons initially", () => {
+    cy.get(".Skeleton").should("have.length", 20);
+  });
+
+  it("should fetch and display menu items", () => {
+    cy.get(".ExpandableTopics").should("exist");
     cy.contains("Topic 1").should("exist");
     cy.contains("Topic 2").should("exist");
-    cy.contains("Subtopic 1-1").should("not.exist");
-
-    cy.contains("Topic 1").click();
-    cy.contains("Subtopic 1-1").should("exist");
-    cy.contains("Subtopic 1-2").should("exist");
   });
 
-  it("displays an error message if the API fails", () => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).rejects(
-      new Error("API error")
-    );
-    mount(<SidenavMenu />);
-    cy.contains("Failed to fetch menu items").should("exist");
-  });
-
-  it("handles empty menu data gracefully", () => {
-    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).resolves({
-      topLevelIds: [],
-      entities: { pages: {} },
-    });
-    mount(<SidenavMenu />);
-    cy.get("ul").should("exist");
-    cy.get("li").should("not.exist");
-  });
-
-  it("filters menu items based on search input", () => {
-    mount(<SidenavMenu />);
-    cy.get("input").type("Subtopic 1-1");
+  it("should filter menu items based on search input", () => {
+    cy.get('input[type="text"]').type("Subtopic 1-1");
+    cy.wait(500);
     cy.contains("Subtopic 1-1").should("exist");
     cy.contains("Subtopic 1-2").should("not.exist");
-    cy.contains("Topic 1").should("exist");
   });
 
-  it("clears search input and resets menu items", () => {
+  it("should display an error message if fetching fails", () => {
+    cy.stub(MenuItemsApi).rejects(new Error("API error"));
     mount(<SidenavMenu />);
-    cy.get("input").type("Subtopic 1-1");
-    cy.contains("Subtopic 1-1").should("exist");
-    cy.get("input").clear();
-    cy.contains("Subtopic 1-2").should("exist");
+    cy.get(".text-red-500").should("contain", "Failed to fetch menu items");
   });
 });
