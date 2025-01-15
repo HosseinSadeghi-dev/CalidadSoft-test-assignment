@@ -5,7 +5,10 @@ import ExpandableTopics from "../../../ExpandableTopics/ExpandableTopics";
 import Skeleton from "../../../UI/Skeleton/Skeleton";
 
 const SidenavMenu: React.FC = () => {
+  const [entityData, setEntityData] = useState<TOC>({} as TOC);
   const [treeData, setTreeData] = useState<TOCEntityTree[]>([]);
+  const [searchInputText, setSearchInputText] = useState<string>("");
+  const [debouncedSearchText, setDebouncedSearchText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
@@ -29,11 +32,71 @@ const SidenavMenu: React.FC = () => {
     [buildTree]
   );
 
+  const filterTOC = (toc: TOC, searchText: string): TOC => {
+    const filteredPages: Record<string, TOCEntity> = {};
+
+    const addParents = (pageId: string) => {
+      for (const [key, page] of Object.entries(toc.entities.pages)) {
+        if (page.pages?.includes(pageId) && !filteredPages[key]) {
+          filteredPages[key] = page;
+          addParents(key); // Recur for the parent
+        }
+      }
+    };
+
+    for (const [key, page] of Object.entries(toc.entities.pages)) {
+      if (
+        page.title
+          .toLocaleLowerCase()
+          .includes(searchText.toLocaleLowerCase()) ||
+        page.pages?.some((f) =>
+          f.toLocaleLowerCase().includes(searchText.toLocaleLowerCase())
+        )
+      ) {
+        filteredPages[key] = page;
+        addParents(key);
+      }
+    }
+
+    return {
+      entities: {
+        pages: filteredPages,
+      },
+      topLevelIds: toc.topLevelIds,
+    };
+  };
+
+  useEffect(() => {
+    setIsLoading(true);
+    const delayInputTimeoutId = setTimeout(() => {
+      setDebouncedSearchText(searchInputText);
+    }, 500);
+    return () => {
+      clearTimeout(delayInputTimeoutId);
+    };
+  }, [searchInputText, debouncedSearchText]);
+
+  useEffect(() => {
+    if (!entityData?.topLevelIds?.length) {
+      return;
+    }
+    if (!debouncedSearchText) {
+      const structuredData = getStructuredData(entityData);
+      setTreeData(structuredData);
+    } else {
+      const filteredData = filterTOC(entityData, debouncedSearchText);
+      const structuredData = getStructuredData(filteredData);
+      setTreeData(structuredData);
+    }
+    setIsLoading(false);
+  }, [debouncedSearchText, entityData, getStructuredData]);
+
   useEffect(() => {
     const fetchMenuItems = async () => {
       try {
         setIsLoading(true);
         const response: TOC = await MenuItemsApi();
+        setEntityData(response);
         const structuredData = getStructuredData(response);
         setTreeData(structuredData);
       } catch (err) {
@@ -46,23 +109,28 @@ const SidenavMenu: React.FC = () => {
     fetchMenuItems();
   }, [getStructuredData]);
 
-  if (isLoading) {
-    return (
-      <>
-        <div className="flex flex-col justify-start items-stretch w-full px-4 gap-y-2">
-          {Array.from(Array(20), (idx) => (
-            <Skeleton key={idx} className="h-7" />
-          ))}
-        </div>
-      </>
-    );
-  }
-
   if (error) {
     return <b className="text-red-500">{error}</b>;
   }
 
-  return <ExpandableTopics topics={treeData} />;
+  return (
+    <div className="flex flex-col justify-start items-stretch gap-y-2.5">
+      <input
+        type="text"
+        value={searchInputText}
+        onChange={(e) => setSearchInputText(e.target.value)}
+        className="border border-gray-300 rounded-md p-2 mx-4"
+        placeholder="Search..."
+      />
+      {isLoading ? (
+        Array.from(Array(20), (e, idx) => (
+          <Skeleton key={idx} className="h-7 mx-4" />
+        ))
+      ) : (
+        <ExpandableTopics topics={treeData} />
+      )}
+    </div>
+  );
 };
 
 export default SidenavMenu;
