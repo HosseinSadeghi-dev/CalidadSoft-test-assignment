@@ -32,20 +32,31 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
           <li
             key={topic.id}
             className={`
-              pl-${level * 4}
-              ${isTopicExpanded(topic.id) ? "bg-zinc-100" : ""}
-              ${isTopicWithChildExpanded(topic) ? "!bg-gray-200" : ""}
+              ${
+                isTopicExpanded(topic.id)
+                  ? "bg-zinc-100 dark:bg-neutral-800"
+                  : ""
+              }
+              ${
+                isTopicWithChildExpanded(topic)
+                  ? "!bg-gray-200 dark:!bg-zinc-800"
+                  : ""
+              }
             `}
           >
             <div
-              className={`list-name`}
+              className={`pl-${level * 4 + 4} list-name`}
               onClick={() => toggleExpand(topic.id)}
               tabIndex={topic.tabIndex}
               role="button"
             >
               {topic.subEntities &&
-                (isTopicExpanded(topic.id) ? <DownArrow /> : <RightArrow />)}
-              <p>{topic.title}</p>
+                (isTopicExpanded(topic.id) ? (
+                  <DownArrow className="dark:fill-white fill-black" />
+                ) : (
+                  <RightArrow className="dark:fill-white fill-black" />
+                ))}
+              <p className={``}>{topic.title}</p>
             </div>
 
             {topic.subEntities && (

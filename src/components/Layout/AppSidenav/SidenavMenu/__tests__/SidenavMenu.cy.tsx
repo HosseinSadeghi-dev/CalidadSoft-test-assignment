@@ -47,7 +47,9 @@ describe("SidenavMenu Component with Search", () => {
   });
 
   it("displays skeleton loader while loading", () => {
-    cy.stub(MenuItemsApi, "default").callsFake(() => new Promise(() => {}));
+    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).callsFake(
+      () => new Promise(() => {})
+    );
     mount(<SidenavMenu />);
     cy.get(".skeleton").should("have.length", 20);
   });
@@ -64,13 +66,15 @@ describe("SidenavMenu Component with Search", () => {
   });
 
   it("displays an error message if the API fails", () => {
-    cy.stub(MenuItemsApi, "default").rejects(new Error("API error"));
+    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).rejects(
+      new Error("API error")
+    );
     mount(<SidenavMenu />);
     cy.contains("Failed to fetch menu items").should("exist");
   });
 
   it("handles empty menu data gracefully", () => {
-    cy.stub(MenuItemsApi, "default").resolves({
+    cy.stub(MenuItemsApi, "default" as keyof typeof MenuItemsApi).resolves({
       topLevelIds: [],
       entities: { pages: {} },
     });

@@ -119,7 +119,7 @@ const SidenavMenu: React.FC = () => {
         type="text"
         value={searchInputText}
         onChange={(e) => setSearchInputText(e.target.value)}
-        className="border border-gray-300 rounded-md p-2 mx-4"
+        className="border border-gray-300 rounded-md p-2 mx-4 bg-transparent dark:text-white dark:placeholder:text-white"
         placeholder="Search..."
       />
       {isLoading ? (
