@@ -15,6 +15,6 @@ export default {
       },
     },
   },
-  safelist: [{ pattern: /pl-./ }],
+  safelist: [{ pattern: /pl-./ }, { pattern: /w-./ }],
   plugins: [],
 };

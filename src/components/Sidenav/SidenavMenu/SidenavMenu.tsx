@@ -1,7 +1,7 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { MenuItemsApi } from "./MenuItems.api";
-import { TOC, TOCEntity, TOCEntityTree } from "./MenuItems.type";
-import ExpandableTopics from "../../ExpandableTopics/ExpandableTopics";
+import { MenuItemsApi } from "@services/MenuItems.api";
+import { TOC, TOCEntity, TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
+import ExpandableTopics from "@components/ExpandableTopics/ExpandableTopics";
 import Skeleton from "@components/UI/Skeleton/Skeleton";
 
 const SidenavMenu: React.FC = () => {

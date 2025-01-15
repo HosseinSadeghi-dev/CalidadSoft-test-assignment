@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { TOCEntityTree } from "../Layout/SidenavMenu/MenuItems.type";
+import { TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
 import "./ExpandableTopics.scss";
 import RightArrow from "@assets/icons/RightArrow";
 import DownArrow from "@assets/icons/DownArrow";

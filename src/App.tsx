@@ -1,4 +1,4 @@
-import AppLayout from "./components/Layout/AppLayout";
+import AppLayout from "@/layouts/AppLayout";
 
 const App: React.FC = () => {
   return <AppLayout />;

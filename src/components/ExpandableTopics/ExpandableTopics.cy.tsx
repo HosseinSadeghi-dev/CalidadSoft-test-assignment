@@ -1,6 +1,6 @@
 import { mount } from "cypress/react18";
 import ExpandableTopics from "./ExpandableTopics";
-import { TOCEntityTree } from "../Layout/SidenavMenu/MenuItems.type";
+import { TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
 
 describe("ExpandableTopics Component", () => {
   const mockTopics: TOCEntityTree[] = [
