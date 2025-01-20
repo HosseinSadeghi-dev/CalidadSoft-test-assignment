@@ -1,10 +1,24 @@
 import AnchorList from "@/components/Anchor/AnchorList";
 import AppSidenav from "@/components/Sidenav/AppSidenav";
 import ThemeBtn from "@/components/UI/ThemeBtn/ThemeBtn";
-import React from "react";
+import React, { useEffect, useState } from "react";
 
 const AppLayout: React.FC = () => {
   const sidenavWidth = 284;
+  const [fragment, setFragment] = useState<string>("");
+
+  useEffect(() => {
+    const handleHashChange = () => {
+      setFragment(window.location.hash);
+    };
+
+    window.addEventListener("hashchange", handleHashChange);
+    handleHashChange(); // Set initial fragment
+
+    return () => {
+      window.removeEventListener("hashchange", handleHashChange);
+    };
+  }, []);
 
   return (
     <div className={"bg-white dark:bg-[#19191C] w-full min-h-screen"}>
@@ -23,8 +37,8 @@ const AppLayout: React.FC = () => {
       >
         <ThemeBtn classname="self-end" />
         <div className="flex flex-row justify-between items-start mt-4">
-          <p className={`dark:text-white`}>{window.location.pathname}</p>
-          <AnchorList className={"mr-8"} />
+          <p className={`dark:text-white`}>{fragment}</p>
+          <AnchorList className={"mr-8 w-56"} />
         </div>
       </div>
     </div>
