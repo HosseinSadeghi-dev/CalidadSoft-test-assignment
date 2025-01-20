@@ -13,7 +13,7 @@ const AppLayout: React.FC = () => {
     };
 
     window.addEventListener("hashchange", handleHashChange);
-    handleHashChange(); // Set initial fragment
+    handleHashChange();
 
     return () => {
       window.removeEventListener("hashchange", handleHashChange);
