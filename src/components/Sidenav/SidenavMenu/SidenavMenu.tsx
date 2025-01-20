@@ -96,12 +96,6 @@ const SidenavMenu: React.FC = () => {
       try {
         setIsLoading(true);
         const response: TOC = await MenuItemsApi();
-        // for (const [key, page] of Object.entries(response.entities.pages)) {
-        //   if (page.url) {
-        //     response.entities.pages[key].anchors = await getAnchors(page.url);
-        //   }
-        // }
-        // console.log("response", response);
         setEntityData(response);
         const structuredData = getStructuredData(response);
         setTreeData(structuredData);

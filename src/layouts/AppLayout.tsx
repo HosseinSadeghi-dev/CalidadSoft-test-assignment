@@ -1,3 +1,4 @@
+import AnchorList from "@/components/Anchor/AnchorList";
 import AppSidenav from "@/components/Sidenav/AppSidenav";
 import ThemeBtn from "@/components/UI/ThemeBtn/ThemeBtn";
 import React from "react";
@@ -21,7 +22,10 @@ const AppLayout: React.FC = () => {
         className="flex flex-col justify-start items-stretch pt-4 px-4"
       >
         <ThemeBtn classname="self-end" />
-        <p className={`dark:text-white`}>content</p>
+        <div className="flex flex-row justify-between items-start mt-4">
+          <p className={`dark:text-white`}>{window.location.pathname}</p>
+          <AnchorList className={"mr-8"} />
+        </div>
       </div>
     </div>
   );
