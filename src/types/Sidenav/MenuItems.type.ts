@@ -2,6 +2,15 @@ export interface TOCEntityTree extends TOCEntity {
   subEntities?: TOCEntity[];
 }
 
+export interface TOCAnchor {
+  id: number;
+  title: string;
+  url: string;
+  anchor: string;
+  level: number;
+  topLevelIds: number[];
+}
+
 export interface TOCEntity {
   id: string;
   title: string;
@@ -11,6 +20,7 @@ export interface TOCEntity {
   tabIndex: number;
   doNotShowWarningLink?: boolean;
   pages?: string[];
+  anchors?: TOCAnchor[];
 }
 
 export interface TOC {

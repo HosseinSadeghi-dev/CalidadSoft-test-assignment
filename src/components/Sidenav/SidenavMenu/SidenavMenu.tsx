@@ -1,5 +1,5 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { MenuItemsApi } from "@services/MenuItems.api";
+import { getAnchors, MenuItemsApi } from "@services/MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
 import ExpandableTopics from "@components/ExpandableTopics/ExpandableTopics";
 import Skeleton from "@components/UI/Skeleton/Skeleton";
@@ -96,6 +96,12 @@ const SidenavMenu: React.FC = () => {
       try {
         setIsLoading(true);
         const response: TOC = await MenuItemsApi();
+        // for (const [key, page] of Object.entries(response.entities.pages)) {
+        //   if (page.url) {
+        //     response.entities.pages[key].anchors = await getAnchors(page.url);
+        //   }
+        // }
+        // console.log("response", response);
         setEntityData(response);
         const structuredData = getStructuredData(response);
         setTreeData(structuredData);
