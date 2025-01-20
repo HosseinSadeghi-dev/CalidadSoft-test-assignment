@@ -54,7 +54,7 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
               `}
             >
               <div
-                className={`pl-${level * 4 + 4} list-name`}
+                className={`pl-${level * 4 + 4} list-name z-20`}
                 onClick={() => toggleExpand(topic)}
                 tabIndex={topic.tabIndex}
                 role="button"
@@ -73,12 +73,13 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
 
               {topic.subEntities && (
                 <div
-                  className={`overflow-hidden transition-max-height duration-1000 ease-in-out ${
-                    isTopicExpanded(topic.id) ? "max-h-[200dvh]" : "max-h-0"
+                  className={`transition-all duration-500 ease-in-out z-10 ${
+                    isTopicExpanded(topic.id)
+                      ? "max-h-[200dvh] opacity-100"
+                      : "max-h-0 opacity-0"
                   }`}
                 >
-                  {isTopicExpanded(topic.id) &&
-                    renderTopics(topic.subEntities, topic.level + 1)}
+                  {renderTopics(topic.subEntities, topic.level + 1)}
                 </div>
               )}
             </li>
