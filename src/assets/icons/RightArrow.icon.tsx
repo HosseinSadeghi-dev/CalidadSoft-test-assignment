@@ -1,6 +1,6 @@
 import React from "react";
 
-const RightArrow: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
+const RightArrowIcon: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   <svg
     width="6"
     height="10"
@@ -12,4 +12,4 @@ const RightArrow: React.FC<React.SVGProps<SVGSVGElement>> = (props) => (
   </svg>
 );
 
-export default RightArrow;
+export default RightArrowIcon;

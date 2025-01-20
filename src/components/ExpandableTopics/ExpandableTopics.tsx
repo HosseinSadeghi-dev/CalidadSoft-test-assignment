@@ -1,8 +1,7 @@
 import React, { useState } from "react";
-import { TOCEntityTree, TOCAnchor } from "@/types/Sidenav/MenuItems.type";
+import { TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
 import "./ExpandableTopics.scss";
-import RightArrow from "@assets/icons/RightArrow";
-import DownArrow from "@assets/icons/DownArrow";
+import RightArrowIcon from "@assets/icons/RightArrow.icon";
 import { useAnchorStore } from "@/store/anchors.store";
 
 interface ExpandableTopicsProps {
@@ -60,12 +59,15 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
                 tabIndex={topic.tabIndex}
                 role="button"
               >
-                {topic.subEntities &&
-                  (isTopicExpanded(topic.id) ? (
-                    <DownArrow className="dark:fill-white fill-black" />
-                  ) : (
-                    <RightArrow className="dark:fill-white fill-black" />
-                  ))}
+                {topic.subEntities && (
+                  <div
+                    className={`transition-transform duration-300 ${
+                      isTopicExpanded(topic.id) ? "rotate-90" : ""
+                    }`}
+                  >
+                    <RightArrowIcon className="dark:fill-white fill-black" />
+                  </div>
+                )}
                 <p>{topic.title}</p>
               </div>
 
