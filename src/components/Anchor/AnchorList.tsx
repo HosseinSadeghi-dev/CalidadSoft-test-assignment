@@ -9,12 +9,8 @@ interface Props {
 const AnchorList: React.FC<Props> = ({ className }) => {
   const anchors: TOCAnchor[] = useAnchorStore((state) => state.anchors);
 
-  const anchorIsSelected = (anchor: string): boolean => {
-    console.log("anchor", anchor.toLowerCase());
-    console.log("window.location.hash", window.location.hash);
-
-    return anchor.toLowerCase() === window.location.hash;
-  };
+  const anchorIsSelected = (anchor: string): boolean =>
+    anchor.toLowerCase() === window.location.hash;
 
   return (
     <nav className={`flex flex-col justify-start items-stretch ${className}`}>

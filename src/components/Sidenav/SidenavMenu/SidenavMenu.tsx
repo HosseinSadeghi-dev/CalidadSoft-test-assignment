@@ -1,8 +1,9 @@
 import React, { useCallback, useEffect, useState } from "react";
-import { getAnchors, MenuItemsApi } from "@services/MenuItems.api";
+import { MenuItemsApi } from "@services/MenuItems.api";
 import { TOC, TOCEntity, TOCEntityTree } from "@/types/Sidenav/MenuItems.type";
 import ExpandableTopics from "@components/ExpandableTopics/ExpandableTopics";
 import Skeleton from "@components/UI/Skeleton/Skeleton";
+import { useAnchorStore } from "@/store/anchors.store";
 
 const SidenavMenu: React.FC = () => {
   const [entityData, setEntityData] = useState<TOC>({} as TOC);
@@ -11,6 +12,9 @@ const SidenavMenu: React.FC = () => {
   const [debouncedSearchText, setDebouncedSearchText] = useState<string>("");
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
+  const setAnchors = useAnchorStore((state) => state.setAnchors);
+
+  // const checkHasActiveAnchor = () => {};
 
   const buildTree = useCallback(
     (entity: TOCEntity, pages: Record<string, TOCEntity>): TOCEntityTree => ({
@@ -21,6 +25,25 @@ const SidenavMenu: React.FC = () => {
         .map((subEntity) => buildTree(subEntity, pages)),
     }),
     []
+  );
+
+  const checkHasActiveAnchor = useCallback(
+    (res: TOC): void => {
+      const hash = window.location.hash;
+      if (hash && res?.entities?.pages) {
+        for (const [key, page] of Object.entries(res.entities.pages)) {
+          if (
+            page.anchors?.some(
+              (f) => f.anchor.toLowerCase() === hash.toLowerCase()
+            )
+          ) {
+            setAnchors(page.anchors);
+            return;
+          }
+        }
+      }
+    },
+    [setAnchors]
   );
 
   const getStructuredData = useCallback(
@@ -99,6 +122,7 @@ const SidenavMenu: React.FC = () => {
         setEntityData(response);
         const structuredData = getStructuredData(response);
         setTreeData(structuredData);
+        checkHasActiveAnchor(response);
       } catch (err) {
         setError("Failed to fetch menu items");
         console.error(err);
@@ -107,7 +131,7 @@ const SidenavMenu: React.FC = () => {
       }
     };
     fetchMenuItems();
-  }, [getStructuredData]);
+  }, [getStructuredData, checkHasActiveAnchor]);
 
   if (error) {
     return <b className="text-red-500">{error}</b>;
