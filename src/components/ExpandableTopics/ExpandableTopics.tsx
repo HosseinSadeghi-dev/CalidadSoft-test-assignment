@@ -73,8 +73,8 @@ const ExpandableTopics: React.FC<ExpandableTopicsProps> = ({ topics }) => {
 
               {topic.subEntities && (
                 <div
-                  className={`overflow-hidden transition-max-height duration-500 ease-in-out ${
-                    isTopicExpanded(topic.id) ? "max-h-screen" : "max-h-0"
+                  className={`overflow-hidden transition-max-height duration-1000 ease-in-out ${
+                    isTopicExpanded(topic.id) ? "max-h-[200dvh]" : "max-h-0"
                   }`}
                 >
                   {isTopicExpanded(topic.id) &&
