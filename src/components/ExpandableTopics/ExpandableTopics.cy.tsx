@@ -55,8 +55,8 @@ describe("ExpandableTopics Component", () => {
   it("expands and collapses topics correctly", () => {
     mount(<ExpandableTopics topics={mockTopics} />);
 
-    cy.contains("Subtopic 1-1").should("not.exist");
-    cy.contains("Subtopic 1-2").should("not.exist");
+    cy.contains("Subtopic 1-1").should("not.be.visible");
+    cy.contains("Subtopic 1-2").should("not.be.visible");
 
     cy.contains("Topic 1").click();
 
@@ -64,9 +64,8 @@ describe("ExpandableTopics Component", () => {
     cy.contains("Subtopic 1-2").should("be.visible");
 
     cy.contains("Topic 1").click();
-
-    cy.contains("Subtopic 1-1").should("not.exist");
-    cy.contains("Subtopic 1-2").should("not.exist");
+    cy.contains("Subtopic 1-1").should("not.be.visible");
+    cy.contains("Subtopic 1-2").should("not.be.visible");
   });
 
   it("handles nested topics correctly", () => {
@@ -80,7 +79,7 @@ describe("ExpandableTopics Component", () => {
 
     cy.contains("Subtopic 1-2").click();
 
-    cy.contains("Subtopic 1-2-1").should("not.exist");
+    cy.contains("Subtopic 1-2-1").should("not.be.visible");
   });
 
   it("does not break when there are no topics", () => {

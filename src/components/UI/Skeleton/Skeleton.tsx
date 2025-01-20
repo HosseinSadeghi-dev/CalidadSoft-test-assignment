@@ -8,6 +8,7 @@ interface Props {
 const Skeleton: React.FC<Props> = ({ className }) => {
   return (
     <div
+      data-testid="skeleton"
       className={`bg-zinc-300 relative overflow-hidden rounded-lg ${className}`}
     >
       <div

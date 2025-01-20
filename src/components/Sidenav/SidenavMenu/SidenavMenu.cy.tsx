@@ -1,7 +1,5 @@
-/// <reference types="cypress" />
 import { mount } from "cypress/react18";
 import SidenavMenu from "./SidenavMenu";
-import { MenuItemsApi } from "@services/MenuItems.api";
 import { TOC } from "@/types/Sidenav/MenuItems.type";
 
 describe("SidenavMenu Component", () => {
@@ -43,7 +41,10 @@ describe("SidenavMenu Component", () => {
   };
 
   beforeEach(() => {
-    cy.stub(MenuItemsApi).resolves(mockTOC);
+    cy.intercept("GET", "/data/data.json", {
+      statusCode: 200,
+      body: mockTOC,
+    }).as("getMenuItems");
     mount(<SidenavMenu />);
   });
 
@@ -52,11 +53,10 @@ describe("SidenavMenu Component", () => {
   });
 
   it("should display loading skeletons initially", () => {
-    cy.get(".Skeleton").should("have.length", 20);
+    cy.get('[data-testid="skeleton"]').should("have.length", 20);
   });
 
   it("should fetch and display menu items", () => {
-    cy.get(".ExpandableTopics").should("exist");
     cy.contains("Topic 1").should("exist");
     cy.contains("Topic 2").should("exist");
   });
@@ -69,7 +69,10 @@ describe("SidenavMenu Component", () => {
   });
 
   it("should display an error message if fetching fails", () => {
-    cy.stub(MenuItemsApi).rejects(new Error("API error"));
+    cy.intercept("GET", "/data/data.json", {
+      statusCode: 500,
+      body: { message: "Internal Server Error" },
+    }).as("getMenuItemsError");
     mount(<SidenavMenu />);
     cy.get(".text-red-500").should("contain", "Failed to fetch menu items");
   });

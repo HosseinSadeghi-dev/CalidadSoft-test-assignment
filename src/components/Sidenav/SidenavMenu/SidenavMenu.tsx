@@ -14,8 +14,6 @@ const SidenavMenu: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const setAnchors = useAnchorStore((state) => state.setAnchors);
 
-  // const checkHasActiveAnchor = () => {};
-
   const buildTree = useCallback(
     (entity: TOCEntity, pages: Record<string, TOCEntity>): TOCEntityTree => ({
       ...entity,
